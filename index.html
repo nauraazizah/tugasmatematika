@@ -3,320 +3,319 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arcade Math Station 🕹️</title>
-    <!-- Tailwind CSS -->
+    <title>Aesthetic Math Planner 🎀</title>
+    <!-- Tailwind CSS Resmi -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Arcade & Modern -->
+    <!-- Font Cantik & Super Aesthetic -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700;900&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f19; }
-        .arcade-font { font-family: 'Orbitron', sans-serif; }
-        /* Efek Tombol Mekanik Game */
-        .arcade-btn {
-            position: relative;
-            border-bottom: 5px solid rgba(0,0,0,0.4);
-            transition: all 0.1s ease;
+        body {
+            font-family: 'Quicksand', sans-serif;
+            transition: background-color 0.4s ease;
         }
-        .arcade-btn:active {
-            transform: translateY(3px);
-            border-bottom-width: 2px;
+        .serif-font {
+            font-family: 'Playfair Display', serif;
         }
-        /* Efek Scanline Layar CRT Game Lama */
-        .crt-screen {
-            position: relative;
-            overflow: hidden;
+        .planner-shadow {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
         }
-        .crt-screen::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2;
-            background-size: 100% 4px, 6px 100%;
-            pointer-events: none;
+        /* Efek kertas binder bergaris tipis halus */
+        .binder-paper {
+            background-color: #ffffff;
+            background-image: linear-gradient(#f3f4f6 1px, transparent 1px);
+            background-size: 100% 28px;
         }
     </style>
 </head>
-<body class="text-slate-200 min-h-screen flex flex-col justify-between p-4 sm:p-6 selection:bg-amber-500 selection:text-black">
+<body id="body-bg" class="bg-rose-50/60 text-stone-700 min-h-screen p-3 sm:p-6 flex flex-col justify-between selection:bg-rose-200 selection:text-stone-900">
 
-    <!-- TOP BAR: HERO CLASS SELECTOR (KUSTOMISASI UTAMA BARU) -->
-    <header class="max-w-4xl w-full mx-auto bg-slate-900 border-4 border-slate-800 p-4 rounded-2xl shadow-xl flex flex-col md:flex-row justify-between items-center gap-4">
-        <div class="text-center md:text-left">
-            <h1 class="arcade-font text-xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
-                ⚡ MATH_QUEST.EXE
+    <!-- TOP HEADER: DESK MOOD FILTER (KUSTOMISASI UTAMA BARU) -->
+    <header class="max-w-4xl w-full mx-auto bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-stone-100 planner-shadow flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+        <div class="text-center sm:text-left">
+            <h1 class="serif-font text-2xl font-bold italic text-stone-800 tracking-wide">
+                iq's study journal ☁️
             </h1>
-            <p class="text-[11px] text-slate-400 uppercase font-bold mt-0.5 tracking-wider">Pilih Class Hero Lu Buat Kalibrasi Gaya Belajar</p>
+            <p class="text-[11px] text-stone-400 font-bold uppercase tracking-widest mt-0.5">Math Study Hub // Kelas 10 SMA</p>
         </div>
         
-        <!-- CLASS BUTTONS -->
-        <div class="grid grid-cols-3 gap-2 w-full md:w-auto">
-            <button onclick="setClass('mage')" id="c-mage" class="arcade-btn px-3 py-2 rounded-xl text-[10px] font-black tracking-wide uppercase bg-purple-600 text-white">
-                🔮 MAGE
+        <!-- STICKER PALETTE FILTER BUTTONS -->
+        <div class="flex bg-stone-50 p-1 rounded-xl border border-stone-100 gap-1.5">
+            <button onclick="setDeskMood('pink')" id="m-pink" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1">
+                🌸 Soft Ribbon
             </button>
-            <button onclick="setClass('rogue')" id="c-rogue" class="arcade-btn px-3 py-2 rounded-xl text-[10px] font-black tracking-wide uppercase bg-emerald-600 text-white">
-                🥷 ROGUE
+            <button onclick="setDeskMood('green')" id="m-green" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1">
+                🍵 Matcha
             </button>
-            <button onclick="setClass('mech')" id="c-mech" class="arcade-btn px-3 py-2 rounded-xl text-[10px] font-black tracking-wide uppercase bg-cyan-600 text-white">
-                🤖 MECH
+            <button onclick="setDeskMood('purple')" id="m-purple" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1">
+                🍇 Lavender
             </button>
         </div>
     </header>
 
-    <!-- MAIN ARCADE CABINET MACHINE -->
-    <main class="max-w-4xl w-full mx-auto my-6 bg-gradient-to-b from-slate-800 to-slate-950 p-4 sm:p-6 rounded-3xl border-8 border-slate-700 shadow-2xl relative">
+    <!-- MAIN BINDER NOTEBOOK NOTEBOOK LAYOUT -->
+    <main class="max-w-4xl w-full mx-auto bg-white rounded-[2.5rem] border-4 border-stone-100 planner-shadow p-4 sm:p-8 relative overflow-hidden">
         
-        <!-- INSIDE CABINET: DYNAMIC GLOWING SCREEN -->
-        <div id="theme-screen" class="crt-screen bg-slate-950 border-4 border-zinc-900 rounded-2xl p-4 sm:p-6 shadow-inner text-slate-300 transition-all duration-300 min-h-[480px] flex flex-col justify-between">
+        <!-- DECORATIVE BINDER HOLES (Efek Lubang Binder Buku di Sebelah Kiri) -->
+        <div class="absolute left-3 top-0 bottom-0 flex flex-col justify-around py-8 pointer-events-none hidden md:flex">
+            <div class="w-4 h-4 rounded-full bg-stone-200 border-inner shadow-inner"></div>
+            <div class="w-4 h-4 rounded-full bg-stone-200 border-inner shadow-inner"></div>
+            <div class="w-4 h-4 rounded-full bg-stone-200 border-inner shadow-inner"></div>
+            <div class="w-4 h-4 rounded-full bg-stone-200 border-inner shadow-inner"></div>
+            <div class="w-4 h-4 rounded-full bg-stone-200 border-inner shadow-inner"></div>
+        </div>
+
+        <!-- INSIDE BINDER CONTENT (Slightly indented for the rings) -->
+        <div class="md:pl-6 flex flex-col justify-between min-h-[500px]">
             
-            <!-- CONTROLLER SCREEN CONTENT -->
             <div class="space-y-6">
-                <!-- SCREEN HEADER -->
-                <div class="flex justify-between items-center border-b-2 border-slate-900 pb-3">
-                    <div class="flex items-center gap-2">
-                        <div id="class-indicator" class="w-2.5 h-2.5 rounded-full bg-purple-500 animate-ping"></div>
-                        <span id="subject-badge" class="arcade-font text-xs font-black tracking-widest text-slate-400"></span>
+                <!-- MODULE TABS NAVIGATION -->
+                <nav class="flex flex-wrap gap-2 border-b border-stone-100 pb-3">
+                    <button onclick="changeSubject('sptldv')" id="t-sptldv" class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300">
+                        📒 1. Modul SPTLDV
+                    </button>
+                    <button onclick="changeSubject('trigo')" id="t-trigo" class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300">
+                        📐 2. Trigonometri
+                    </button>
+                    <button onclick="changeSubject('stats')" id="t-stats" class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300">
+                        📊 3. Statistika Data
+                    </button>
+                </nav>
+
+                <!-- SUBJECT DETAIL BANNER -->
+                <div>
+                    <span id="subject-badge" class="text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full text-stone-500 bg-stone-100"></span>
+                    <h2 id="subject-title" class="serif-font text-2xl font-bold text-stone-800 mt-2"></h2>
+                </div>
+
+                <!-- CONCEPT JOURNAL PAPER -->
+                <div class="binder-paper p-5 rounded-2xl border border-stone-100/80 shadow-sm space-y-2">
+                    <h4 class="text-xs font-bold text-stone-400 tracking-wider uppercase flex items-center gap-1">✨ Ringkasan Catatan Cantik:</h4>
+                    <p id="subject-desc" class="text-xs sm:text-sm text-stone-600 leading-relaxed font-medium"></p>
+                </div>
+
+                <!-- CORE DATA MATRIX FORMULA BOX -->
+                <div id="formula-box" class="p-4 rounded-xl text-xs font-medium text-stone-600">
+                    <!-- Dynamic via javascript -->
+                </div>
+
+                <!-- CUTE QUIZ CORNER -->
+                <div class="bg-stone-50/80 p-5 rounded-2xl border border-stone-100/60 space-y-3">
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-xs">✏️</span>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-stone-500">Self-Evaluation Quiz Corner</h4>
                     </div>
-                    <span id="hero-tag" class="text-[10px] bg-slate-900 border border-slate-800 px-2.5 py-0.5 rounded font-mono font-bold text-amber-400"></span>
-                </div>
-
-                <!-- MATERI CONTENT BLOCK -->
-                <div class="space-y-2">
-                    <h2 id="subject-title" class="arcade-font text-lg font-black tracking-wide text-white"></h2>
-                    <p id="subject-desc" class="text-xs sm:text-sm text-slate-400 leading-relaxed font-medium"></p>
-                </div>
-
-                <!-- FORMULA DISPLAY CORE -->
-                <div id="formula-box" class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 text-xs text-slate-400 font-medium">
-                    <!-- Injected dynamically -->
-                </div>
-
-                <!-- INTERACTIVE MINI-QUIZ PANEL -->
-                <div class="bg-black/40 border-2 border-slate-900 p-4 rounded-xl space-y-3">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs">🎮</span>
-                        <h4 class="arcade-font text-xs font-bold tracking-wider text-amber-400">STRIKE QUIZ MISSION</h4>
-                    </div>
-                    <p id="quiz-text" class="text-xs sm:text-sm text-slate-200 font-semibold"></p>
+                    <p id="quiz-question" class="text-xs sm:text-sm text-stone-700 font-bold leading-relaxed"></p>
                     
-                    <!-- Options container -->
-                    <div id="quiz-choices" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        <!-- Buttons injected via script -->
+                    <!-- Choices container buttons -->
+                    <div id="quiz-choices" class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                        <!-- Dynamic buttons -->
                     </div>
                     
-                    <!-- Instant Alert Feedback -->
-                    <div id="quiz-alert" class="hidden text-xs font-bold p-2.5 rounded-lg text-center font-mono"></div>
+                    <!-- Instant Quiz Answer Box -->
+                    <div id="quiz-feedback" class="hidden text-xs font-bold p-3 rounded-xl text-center border transition-all"></div>
                 </div>
             </div>
 
-            <!-- EXTERNAL YOUTUBE FOOTER LINK -->
-            <div class="pt-6 border-t border-slate-900 mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-                <span class="text-[10px] font-mono text-slate-600">SYS_STATUS: CRITICAL_MATH_SOLVED</span>
-                <a id="video-btn" href="#" target="_blank" class="arcade-btn w-full sm:w-auto text-center px-5 py-2.5 bg-amber-400 text-slate-950 font-black text-xs tracking-wider uppercase rounded-xl hover:bg-amber-300">
-                    Buka Video Strategi ↗
+            <!-- EXTERNAL COMPLEMENTARY FOOTER LINK -->
+            <div class="pt-6 border-t border-stone-100 mt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <span class="text-[10px] text-stone-400 font-medium uppercase tracking-widest">Status: Notes Successfully Saved ♡</span>
+                <a id="video-link" href="#" target="_blank" class="w-full sm:w-auto text-center px-5 py-2.5 text-white font-bold text-xs tracking-wide uppercase rounded-full shadow-sm hover:opacity-90 transition duration-300">
+                    Tonton Video Pembahasan ☕
                 </a>
             </div>
 
         </div>
-
-        <!-- OUTSIDE CABINET: PHYSICAL GAME BUTTONS CONTROL -->
-        <div class="mt-6 pt-4 border-t-4 border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <button onclick="selectSubject('sptldv')" id="b-sptldv" class="arcade-btn w-full p-3 rounded-xl text-xs font-black tracking-widest uppercase bg-slate-900 text-slate-400 border-slate-950">
-                🕹️ 1. SPTLDV LAYER
-            </button>
-            <button onclick="selectSubject('trigo')" id="b-trigo" class="arcade-btn w-full p-3 rounded-xl text-xs font-black tracking-widest uppercase bg-slate-900 text-slate-400 border-slate-950">
-                🔮 2. TRIGO MAGIC
-            </button>
-            <button onclick="selectSubject('stats')" id="b-stats" class="arcade-btn w-full p-3 rounded-xl text-xs font-black tracking-widest uppercase bg-slate-900 text-slate-400 border-slate-950">
-                📊 3. STATS CORE
-            </button>
-        </div>
     </main>
 
-    <!-- FOOTER COPYRIGHT -->
-    <footer class="text-center text-[10px] text-slate-600 font-mono uppercase tracking-widest pt-4">
-        GAMESTATION ENGINE v4.0 • CREATED FOR THE BOYS © 2026
+    <!-- FOOTER CREDITS -->
+    <footer class="text-center text-[10px] text-stone-400 font-medium tracking-widest uppercase py-6">
+        🌸 crafted with love for a bright future • aesthetic notes v3.0 © 2026 🌸
     </footer>
 
-    <!-- ENGINE JAVASCRIPT SYSTEM -->
+    <!-- ENGINE SYSTEM CODE -->
     <script>
-        let activeSubject = 'sptldv';
-        let activeClass = 'mage';
+        let currentSubject = 'sptldv';
+        let currentMood = 'pink';
 
-        // DATABASE MATERI + PERUBAHAN STYLE BAHASA HERO CLASS
-        const gameDatabase = {
+        // DATABASE MATERI + QUIZ MATEMATIKA LENGKAP KELAS 10
+        const studyDatabase = {
             sptldv: {
-                badge: "MISSION: ALGEBRA",
-                title: "Sistem Pertidaksamaan Linear Dua Variabel (SPTLDV)",
-                desc: {
-                    mage: "Mantra khusus memetakan wilayah sihir aman (Daerah Penyelesaian). Gambar garis batas penghalang (garis utuh kalau ada mantra '=', garis putus-putus kalau gak ada), lalu rapalkan uji elemen (0,0). Jika segel bernilai BENAR, arsir wilayah lingkaran (0,0) tersebut!",
-                    rogue: "Cara nge-crack sistem keamanan wilayah koordinat. Hack titik potong sumbu X sama Y pake trik angka nol, tarik garis bypass, terus injeksi koordinat (0,0) buat uji validasi server. Kalau tembus (BENAR), sikat habis arsirannya di sana. Sat-set langsung kelar!",
-                    mech: "Protokol kalibrasi batas ruang pertidaksamaan linear. Sistem wajib menghitung intersep sumbu kartesius X dan Y secara simultan. Jika relasi menggunakan operator kesamaan (≤/≥), gunakan solid-line. Jalankan tes logika ordinal (0,0) untuk fiksasi area grafik."
-                },
+                badge: "Topik: Aljabar Linier",
+                title: "Sistem Pertidaksamaan Linear Dua Variabel",
+                desc: "Cara mencari daerah penyelesaian grafik itu sebenarnya gampang dan estetik banget kok! Pertama, kita cari titik potong di sumbu X dan sumbu Y secara bergantian dengan bantuan angka nol, lalu tarik garis lurus penghubung yang rapi. Terakhir, kita uji pakai titik paling gampang yaitu (0,0). Kalau hasilnya terbukti benar sesuai soalnya, tinggal kita arsir dengan cantik daerah yang menutupi titik (0,0) tersebut. Selesai!",
                 formula: `
-                    <div class="space-y-1">
-                        <p class="text-amber-400 font-black font-mono">⚡ RULESET DATA MATRIKS:</p>
-                        <p>• Uji Titik (0,0) pada persamaan 2x + 3y ≤ 12 menghasilkan output: <strong>0 ≤ 12 (VALID / BENAR)</strong>.</p>
-                        <p>• Kondisi x ≥ 0 dan y ≥ 0 mengunci pergerakan daerah hasil mutlak berada di area <strong>Kuadran I</strong>.</p>
+                    <div class="space-y-1.5 bg-rose-50/30 p-4 rounded-xl border border-rose-100/50">
+                        <p class="font-bold text-stone-800 flex items-center gap-1">📌 Catatan Aturan Garis Gambar:</p>
+                        <p>• Gunakan <span class="underline decoration-wavy">garis lurus utuh</span> jika tanda pertidaksamaan memakai komponen sama dengan (≤ atau ≥).</p>
+                        <p>• Gunakan <span class="underline decoration-dashed">garis putus-putus manis</span> jika tanda pertidaksamaan murni lebih besar/kecil saja (< atau >).</p>
                     </div>
                 `,
                 quiz: {
-                    text: "Jika tanda pertidaksamaan pada soal adalah 'x + y > 4' (tidak ada sama dengannya), jenis garis pembatas apa yang wajib kita gambar pada grafik?",
+                    question: "Jika daerah hasil dari pertidaksamaan x + y ≥ 5 kita uji menggunakan titik uji pusat (0,0), apakah pernyataan tersebut menghasilkan kesimpulan nilai yang benar atau salah?",
                     choices: [
-                        { text: "Garis putus-putus (Gak ada tanda sama dengan)", isCorrect: true },
-                        { text: "Garis lurus utuh tebal", isCorrect: false }
+                        { text: "Salah, karena 0 tidak lebih besar dari 5 🌸", isCorrect: true },
+                        { text: "Benar, karena nilai 0 selalu benar 🌸", isCorrect: false }
                     ]
                 },
                 link: "https://www.youtube.com/results?search_query=belajar+sptldv+mudah"
             },
             trigo: {
-                badge: "MISSION: GEOMETRY",
-                title: "Trigonometri Dasar & Rumus Perbandingan Segitiga",
-                desc: {
-                    mage: "Seni membaca elemen segitiga siku-siku melalui sudut pusaran. Gunakan tiga mantra kuno pemanggil sisi: Sin = Demi (Depan/Miring), Cos = Sami (Samping/Miring), Tan = Desa (Depan/Samping). Kuasai juga gerbang kuadran mistis lewat segel ASTC (All-Sin-Tan-Cos)!",
-                    rogue: "Skimming rahasia perbandingan sudut segitiga. Hafalan maut penyembuh beban ujian: Sin itu Depan dibagi Miring, Cos itu Samping dibagi Miring, dan Tan itu Depan dibagi Samping. Eksekusi sudut istimewa kuadran I pake trik lima jari tangan biar gak ketahuan mencontek!",
-                    mech: "Sistem komputasi trigonometri pada geometri siku-siku. Mengkalkulasi rasio proyeksi vektor terhadap sumbu elevasi sudut. Formula dasar: Sinus = Depan/Miring, Kosinus = Samping/Miring, Tangen = Depan/Samping. Distribusi polaritas muatan nilai dikontrol oleh koordinat Kuadran I-IV."
-                },
+                badge: "Topik: Geometri Segitiga",
+                title: "Trigonometri Dasar & Aturan Rasio Sisi",
+                desc: "Trigonometri itu cuma membahas perbandingan rasio ukuran panjang sisi segitiga siku-siku berdasarkan sudut estetiknya. Jembatan keledai super gampang buat hafalan kita: Sin itu Demi (Depan dibagi Miring), Cos itu Sami (Samping dibagi Miring), dan Tan itu Desa (Depan dibagi Samping). Jangan sampai tertukar ya! Serta hafalkan rumus pembagian wilayah kuadran memakai singkatan manis ASTC (All, Sin, Tan, Cos).",
                 formula: `
-                    <div class="space-y-1">
-                        <p class="text-amber-400 font-black font-mono">⚡ RANGKUMAN DATA SUDUT ISTIMEWA (SIN):</p>
-                        <p class="font-mono bg-black/40 p-2 rounded border border-slate-900 text-center text-amber-300">
+                    <div class="space-y-1.5 bg-rose-50/30 p-4 rounded-xl border border-rose-100/50">
+                        <p class="font-bold text-stone-800 flex items-center gap-1">📌 Nilai Cantik Sudut Istimewa Kuadran I:</p>
+                        <p class="font-mono text-[11px] text-stone-500 bg-white/80 p-2 rounded border border-stone-100 text-center">
                             Sin 30° = 1/2  |  Sin 45° = 1/2√2  |  Sin 60° = 1/2√3
                         </p>
                     </div>
                 `,
                 quiz: {
-                    text: "Ada tangga sepanjang 6 meter bersandar membentuk sudut 60° dengan lantai. Tinggi tembok yang dicapai tangga dihitung memakai rasio rumus apa?",
+                    question: "Sebuah tangga sepanjang 6 meter bersandar manis di tembok dengan sudut lantai 60°. Tinggi tembok bangunan tersebut bisa dicari paling tepat menggunakan bantuan rasio rumus apa?",
                     choices: [
-                        { text: "Rumus SIN (Perbandingan Sisi Depan/Miring)", isCorrect: true },
-                        { text: "Rumus TAN (Perbandingan Sisi Depan/Samping)", isCorrect: false }
+                        { text: "Memakai rumus SIN (Perbandingan Depan/Miring) ✨", isCorrect: true },
+                        { text: "Memakai rumus COS (Perbandingan Samping/Miring) ✨", isCorrect: false }
                     ]
                 },
                 link: "https://www.youtube.com/results?search_query=trik+trigonometri+sudut+istimewa"
             },
             stats: {
-                badge: "MISSION: ANALYTICS",
-                title: "Statistika: Pengolahan Data Tunggal Kelas 10",
-                desc: {
-                    mage: "Tiga roh penjaga tumpukan data acak. Ada Mean (meramal nilai rata-rata kelompok data), Median (menemukan inti jiwa terdalam alias nilai tengah setelah data diurutkan sakral), dan Modus (wujud energi yang paling sering menampakkan diri/paling eksis).",
-                    rogue: "Operasi intelijen data mining mencari statistik data tunggal. Looting nilai Mean dengan menjumlahkan seluruh angka lalu dibagi total banyaknya sampel. Amankan data Median pas di tengah setelah diurutkan, dan cari Modus yaitu angka yang paling sering ngetren keluar!",
-                    mech: "Pemrosesan algoritma telemetri data deskriptif tunggal. Subsistem mengeksekusi tiga parameter utama: Mean (rerata aritmatika via akumulasi sigma nilai per total populasi N), Median (titik tengah distribusi data sekuensial), dan Modus (frekuensi densitas kemunculan tertinggi)."
-                },
+                badge: "Topik: Pengolahan Data",
+                title: "Statistika Dasar: Ukuran Pemusatan Data Tunggal",
+                desc: "Di materi statistika pengolahan data tunggal kelas 10, kita akan berteman akrab sama kelompok tiga serangkai utama: Mean (mencari nilai rata-rata, rumusnya tinggal jumlahkan seluruh angka data lalu dibagi dengan total frekuensi data), Median (mencari nilai pas di tengah, syaratnya urutkan dulu data dari kecil ke besar), dan Modus (mencari angka data yang paling sering muncul atau paling hits di kelompok itu).",
                 formula: `
-                    <div class="space-y-1">
-                        <p class="text-amber-400 font-black font-mono">⚡ KALKULASI EKSTRA DATA (6, 7, 8, 8, 9):</p>
-                        <p>• <strong>Mean:</strong> 38 / 5 = 7.6  |  <strong>Median:</strong> nilai tengah urutan ganjil = 8</p>
-                        <p>• <strong>Jangkauan (Range):</strong> Nilai Max - Nilai Min ➔ 9 - 6 = 3.</p>
+                    <div class="space-y-1.5 bg-rose-50/30 p-4 rounded-xl border border-rose-100/50">
+                        <p class="font-bold text-stone-800 flex items-center gap-1">📌 Rumus Tambahan Jangkauan (Range):</p>
+                        <p>• Jangkauan dicari dengan selisih angka paling tinggi dikurangi angka paling rendah (Xmax - Xmin).</p>
+                        <p>• Contoh data tunggal (6, 7, 8, 8, 9) memiliki Mean = 7.6, Median = 8, Modus = 8, dan Range = 3.</p>
                     </div>
                 `,
                 quiz: {
-                    text: "Diketahui sekumpulan data kuis: 5, 6, 7, 7, 10. Berapakah nilai Jangkauan (Range) dari data tunggal tersebut?",
+                    question: "Diketahui data nilai matematika beberapa murid adalah: 5, 6, 7, 7, 10. Berapakah hasil nilai Jangkauan (Range) dari kelompok data tunggal tersebut?",
                     choices: [
-                        { text: "Jangkauan = 5 (Didapat dari 10 - 5)", isCorrect: true },
-                        { text: "Jangkauan = 7 (Karena angka 7 paling dominan)", isCorrect: false }
+                        { text: "Nilai Jangkauan = 5 (Didapat dari 10 dikurangi 5) 💕", isCorrect: true },
+                        { text: "Nilai Jangkauan = 7 (Karena angka 7 paling sering keluar) 💕", isCorrect: false }
                     ]
                 },
                 link: "https://www.youtube.com/results?search_query=statistika+data+tunggal+kelas+10"
             }
         };
 
-        // KUSTOMISASI ATURAN WARNA KONSOL BERDASARKAN CLASS
-        const classThemes = {
-            mage: { bg: "shadow-[inset_0_0_25px_rgba(147,51,234,0.3)] border-purple-900/60", indicator: "bg-purple-500", tag: "🔮 MATH_SORCERER" },
-            rogue: { bg: "shadow-[inset_0_0_25px_rgba(16,185,129,0.3)] border-emerald-900/60", indicator: "bg-emerald-500", tag: "🥷 DATA_GLITCHER" },
-            mech: { bg: "shadow-[inset_0_0_25px_rgba(6,182,212,0.3)] border-cyan-900/60", indicator: "bg-cyan-500", tag: "🤖 EQUATION_TITAN" }
+        // KONFIGURASI TEMA WARNA ESTETIK BERDASARKAN FILTER MOOD PASARAN CEWE
+        const moodThemes = {
+            pink: {
+                bodyBg: "bg-rose-50/60",
+                navActive: "bg-rose-100 text-rose-700 font-bold",
+                btnActive: "bg-rose-400 text-white shadow-sm",
+                accentBox: "bg-rose-50/40 border-rose-100/60 text-stone-600",
+                primaryBtn: "bg-gradient-to-r from-rose-400 to-pink-400 shadow-rose-200"
+            },
+            green: {
+                bodyBg: "bg-emerald-50/50",
+                navActive: "bg-emerald-100 text-emerald-800 font-bold",
+                btnActive: "bg-emerald-500 text-white shadow-sm",
+                accentBox: "bg-emerald-50/40 border-emerald-100/60 text-stone-600",
+                primaryBtn: "bg-gradient-to-r from-emerald-400 to-teal-500 shadow-emerald-200"
+            },
+            purple: {
+                bodyBg: "bg-violet-50/60",
+                navActive: "bg-violet-100 text-violet-700 font-bold",
+                btnActive: "bg-violet-400 text-white shadow-sm",
+                accentBox: "bg-violet-50/40 border-violet-100/60 text-stone-600",
+                primaryBtn: "bg-gradient-to-r from-violet-400 to-fuchsia-400 shadow-violet-200"
+            }
         };
 
-        function updateArcadeMachine() {
-            const currentData = gameDatabase[activeSubject];
-            const currentTheme = classThemes[activeClass];
+        function renderPlanner() {
+            const data = studyDatabase[currentSubject];
+            const theme = moodThemes[currentMood];
 
-            // 1. Update Teks Judul, Tag, dan Deskripsi
-            document.getElementById('subject-badge').innerText = currentData.badge;
-            document.getElementById('hero-tag').innerText = currentTheme.tag;
-            document.getElementById('subject-title').innerText = currentData.title;
-            document.getElementById('subject-desc').innerText = currentData.desc[activeClass];
-            
-            // 2. Update Rumus Box Tengah
-            document.getElementById('formula-box').innerHTML = currentData.formula;
+            // 1. Ganti Latar Belakang Body Utama
+            document.getElementById('body-bg').className = `${theme.bodyBg} text-stone-700 min-h-screen p-3 sm:p-6 flex flex-col justify-between selection:bg-rose-200 selection:text-stone-900`;
 
-            // 3. Update Link Video
-            document.getElementById('video-btn').href = currentData.link;
+            // 2. Injeksi Teks Konten & Deskripsi Materi
+            document.getElementById('subject-badge').innerText = data.badge;
+            document.getElementById('subject-title').innerText = data.title;
+            document.getElementById('subject-desc').innerText = data.desc;
 
-            // 4. Update Kuis Interaktif
-            document.getElementById('quiz-text').innerText = currentData.quiz.text;
-            document.getElementById('quiz-alert').className = "hidden text-xs font-bold p-2.5 rounded-lg text-center font-mono"; // Reset alert
+            // 3. Injeksi Kotak Rumus Tengah & Ubah Warnanya Dinamis
+            const formulaBox = document.getElementById('formula-box');
+            formulaBox.innerHTML = data.formula;
+            formulaBox.firstElementChild.className = `space-y-1.5 p-4 rounded-xl border ${theme.accentBox}`;
 
-            const choicesContainer = document.getElementById('quiz-choices');
-            choicesContainer.innerHTML = ''; // Clear lama
-            currentData.quiz.choices.forEach(choice => {
+            // 4. Injeksi Teks Soal Kuis
+            document.getElementById('quiz-question').innerText = data.quiz.question;
+            document.getElementById('quiz-feedback').className = "hidden text-xs font-bold p-3 rounded-xl text-center border transition-all"; // Reset alert
+
+            // 5. Injeksi Pilihan Tombol Kuis
+            const choicesBox = document.getElementById('quiz-choices');
+            choicesBox.innerHTML = '';
+            data.quiz.choices.forEach(ch => {
                 const button = document.createElement('button');
-                button.innerText = choice.text;
-                button.className = "arcade-btn p-3 bg-slate-900 border border-slate-800 rounded-xl text-left text-xs font-semibold hover:bg-slate-800 transition text-slate-300";
-                button.onclick = function() { checkGameQuiz(choice.isCorrect); };
-                choicesContainer.appendChild(button);
+                button.innerText = ch.text;
+                button.className = "p-3 bg-white border border-stone-200 text-stone-600 rounded-xl text-left text-xs font-medium hover:bg-stone-50 transition duration-200";
+                button.onclick = function() { checkPlannerQuiz(ch.isCorrect); };
+                choicesBox.appendChild(button);
             });
 
-            // 5. Ubah Tema Warna Layar CRT Secara Dinamis
-            const screen = document.getElementById('theme-screen');
-            screen.className = `crt-screen bg-slate-950 border-4 rounded-2xl p-4 sm:p-6 text-slate-300 transition-all duration-300 min-h-[480px] flex flex-col justify-between ${currentTheme.bg}`;
-            
-            const indicator = document.getElementById('class-indicator');
-            indicator.className = `w-2.5 h-2.5 rounded-full animate-ping ${currentTheme.indicator}`;
+            // 6. Update Link Video Button + Styling Warnanya
+            const videoBtn = document.getElementById('video-link');
+            videoBtn.href = data.link;
+            videoBtn.className = `w-full sm:w-auto text-center px-5 py-2.5 text-white font-bold text-xs tracking-wide uppercase rounded-full shadow-md hover:opacity-90 transition duration-300 ${theme.primaryBtn}`;
 
-            // 6. Sinkronisasi Tombol Fisik Bawah
+            // 7. Sinkronisasi Styling Navigasi Tab Modul Materi
             const subjects = ['sptldv', 'trigo', 'stats'];
             subjects.forEach(s => {
-                const btn = document.getElementById(`b-${s}`);
-                if (s === activeSubject) {
-                    btn.className = "arcade-btn w-full p-3 rounded-xl text-xs font-black tracking-widest uppercase bg-amber-400 text-slate-950 border-amber-600";
+                const tab = document.getElementById(`t-${s}`);
+                if (s === currentSubject) {
+                    tab.className = `px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 ${theme.navActive}`;
                 } else {
-                    btn.className = "arcade-btn w-full p-3 rounded-xl text-xs font-black tracking-widest uppercase bg-slate-900 text-slate-500 border-slate-950";
+                    tab.className = "px-4 py-2 rounded-full text-xs font-medium text-stone-400 hover:text-stone-600 transition-all duration-300";
                 }
             });
 
-            // 7. Sinkronisasi Tombol Atas (Class Selector)
-            const classes = ['mage', 'rogue', 'mech'];
-            classes.forEach(c => {
-                const topBtn = document.getElementById(`c-${c}`);
-                if (c === activeClass) {
-                    topBtn.style.opacity = "1";
-                    topBtn.style.transform = "scale(1.05)";
+            // 8. Sinkronisasi Tombol Atas (Desk Mood Switcher)
+            const moods = ['pink', 'green', 'purple'];
+            moods.forEach(m => {
+                const moodBtn = document.getElementById(`m-${m}`);
+                if (m === currentMood) {
+                    moodBtn.className = `px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${theme.btnActive}`;
                 } else {
-                    topBtn.style.opacity = "0.4";
-                    topBtn.style.transform = "scale(1)";
+                    moodBtn.className = "px-3 py-1.5 rounded-lg text-xs font-medium text-stone-400 hover:text-stone-600 transition-all flex items-center gap-1";
                 }
             });
         }
 
-        // Action Handlers
-        function checkGameQuiz(isCorrect) {
-            const alertBox = document.getElementById('quiz-alert');
-            alertBox.classList.remove('hidden');
+        // Handler Validasi Kuis Interaktif Lembut
+        function checkPlannerQuiz(isCorrect) {
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.remove('hidden');
             if (isCorrect) {
-                alertBox.innerText = "🎯 CRITICAL HIT! JAWABAN LU BENER, MISI SELESAI +100 XP! 👑";
-                alertBox.className = "text-xs font-bold p-2.5 rounded-lg text-center font-mono bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 block animate-bounce";
+                feedback.innerText = "🌸 Yay! Jawaban kamu benar, catatan kamu semakin sempurna! (+500 Aura Points) ✨";
+                feedback.className = "text-xs font-bold p-3 rounded-xl text-center border bg-emerald-50/50 border-emerald-200 text-emerald-600 block animate-bounce";
             } else {
-                alertBox.innerText = "💥 MISSION FAILED! HP BERKURANG, COBA CEK LAGI FORMULANYA!";
-                alertBox.className = "text-xs font-bold p-2.5 rounded-lg text-center font-mono bg-rose-500/10 border border-rose-500/30 text-rose-400 block";
+                feedback.innerText = "☁️ Oh no, kurang tepat! Jangan sedih, coba koreksi lagi langkah coretan rumusnya ya!";
+                feedback.className = "text-xs font-bold p-3 rounded-xl text-center border bg-rose-50/50 border-rose-200 text-rose-500 block";
             }
         }
 
-        function selectSubject(id) {
-            activeSubject = id;
-            updateArcadeMachine();
+        // Action Router
+        function changeSubject(id) {
+            currentSubject = id;
+            renderPlanner();
         }
 
-        function setClass(className) {
-            activeClass = className;
-            updateArcadeMachine();
+        function setDeskMood(moodId) {
+            currentMood = moodId;
+            renderPlanner();
         }
 
-        // Initialize On Load
+        // Auto Run On Load
         document.addEventListener("DOMContentLoaded", function() {
-            updateArcadeMachine();
+            renderPlanner();
         });
     </script>
 </body>
